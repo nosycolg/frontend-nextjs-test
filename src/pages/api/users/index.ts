@@ -24,7 +24,9 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 			];
 			return res.status(200).json(users);
 		} catch {
-			return res.status(500);
+			return res.status(400);
 		}
+	} else {
+		return res.status(500);
 	}
 };

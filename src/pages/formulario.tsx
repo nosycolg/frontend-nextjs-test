@@ -10,20 +10,33 @@
  */
 
 import styles from '@/styles/formulario.module.css';
+import { IUserCreate } from '@/types/user';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function Form() {
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault();
+	const { register, handleSubmit } = useForm<IUserCreate>();
+	const onSubmit: SubmitHandler<IUserCreate> = (data) => {
+		createUser(data);
+	};
 
-		console.log('submit');
+	async function createUser(data: IUserCreate) {
+		try {
+			await fetch('/api/users/create', {
+				method: 'POST',
+				headers: { "Content-Type": "application/json;charset=utf-8" },
+				body: JSON.stringify(data)
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.content}>
-				<form onSubmit={handleSubmit}>
-					<input type="text" placeholder="Name" />
-					<input type="email" placeholder="E-mail" />
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<input {...register('name')} type="text" placeholder="Name" />
+					<input {...register('email')} type="email" placeholder="E-mail" />
 
 					<button type="submit" data-type="confirm">
 						Enviar
