@@ -47,7 +47,6 @@ export default function Home() {
 				</button>
 			</main>
 
-			{/* modal */}
 			<Modal
 				isOpen={modalIsOpen}
 				title="Criar novo usuário"

@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styles from './style.module.css';
 
 type ModalProps = {
@@ -20,8 +21,12 @@ type ModalProps = {
 */
 
 export const Modal: React.FC<ModalProps> = ({ children, title, isOpen, ...props }) => {
+	const wrapperRef = useRef<HTMLDivElement>(null);
+
 	function handleCloseClick(e: React.MouseEvent) {
-		props.onClose?.('click', e.target);
+		if (e.target == wrapperRef.current) {
+			props.onClose?.('click', e.target);
+		}
 	}
 
 	function handleConfirmClick(e: React.MouseEvent) {
@@ -35,7 +40,7 @@ export const Modal: React.FC<ModalProps> = ({ children, title, isOpen, ...props 
 	if (!isOpen) return null;
 
 	return (
-		<div data-modal-wrapper className={styles.wrapper} onClick={handleCloseClick} onKeyDown={handleKeyDown}>
+		<div ref={wrapperRef} data-modal-wrapper className={styles.wrapper} onClick={handleCloseClick} onKeyDown={handleKeyDown}>
 			<div data-modal-container>
 				<header data-modal-header>
 					<h2>{title}</h2>
