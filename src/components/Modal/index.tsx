@@ -22,9 +22,10 @@ type ModalProps = {
 
 export const Modal: React.FC<ModalProps> = ({ children, title, isOpen, ...props }) => {
 	const wrapperRef = useRef<HTMLDivElement>(null);
+	const buttonRef = useRef<HTMLButtonElement>(null);
 
 	function handleCloseClick(e: React.MouseEvent) {
-		if (e.target == wrapperRef.current) {
+		if (e.target == wrapperRef.current || e.target == buttonRef.current) {
 			props.onClose?.('click', e.target);
 		}
 	}
@@ -54,7 +55,7 @@ export const Modal: React.FC<ModalProps> = ({ children, title, isOpen, ...props 
 
 				{!props.footer?.hidden && (
 					<div data-modal-footer>
-						<button data-modal-cancel onClick={handleCloseClick}>
+						<button ref={buttonRef} data-modal-cancel onClick={handleCloseClick}>
 							{props.footer?.cancelText ?? 'Cancelar'}
 						</button>
 
