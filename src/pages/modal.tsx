@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 import styles from '@/styles/modal.module.css';
 import { Modal } from '@/components/Modal';
+import Head from 'next/head';
 
 export default function Home() {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -41,6 +42,11 @@ export default function Home() {
 
 	return (
 		<>
+			<Head>
+				<title>Página do modal</title>
+				<meta name="description" content="Esta é a página do modal" />
+			</Head>
+
 			<main className={styles.container}>
 				<button type="button" onClick={() => setModalIsOpen(true)}>
 					Abrir modal
