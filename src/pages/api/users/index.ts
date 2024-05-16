@@ -15,7 +15,16 @@ import { NextApiRequest, NextApiResponse } from 'next/types';
 import { IUser } from '@/types/user.d';
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
-	const users: Array<unknown> = [];
-
-	return res.status(500).json(users);
+	if (req.method === 'GET') {
+		try {
+			const users: Array<IUser> = [
+				{ id: 1, name: 'Junior', email: 'usuario1@example.com' },
+				{ id: 2, name: 'Pleno', email: 'usuario2@example.com' },
+				{ id: 3, name: 'Senior', email: 'usuario2@example.com' }
+			];
+			return res.status(200).json(users);
+		} catch {
+			return res.status(500);
+		}
+	}
 };
