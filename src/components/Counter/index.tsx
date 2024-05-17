@@ -9,15 +9,25 @@ export const Counter: React.FC<CounterProps> = ({ initialCount }) => {
 
 	useEffect(() => {
 		console.log('Componente montado!');
+		const mountEvent = new CustomEvent('onCounterMount');
+		window.dispatchEvent(mountEvent);
 
 		return () => {
 			console.log('Componente desmontado!');
+			const unmountEvent = new CustomEvent('onCounterUnmount');
+			window.dispatchEvent(unmountEvent);
 		};
 	}, []);
 
 	useEffect(() => {
-		console.log('Componente atualizado!');
-	});
+		const updateEvent = new CustomEvent('onCounterUpdate', { detail: { count } });
+		window.dispatchEvent(updateEvent);
+
+		if (count === 10) {
+			const unmountEvent = new CustomEvent('onCounterUnmount');
+			window.dispatchEvent(unmountEvent);
+		}
+	}, [count]);
 
 	const handleIncrement = () => {
 		setCount((prevCount) => prevCount + 1);

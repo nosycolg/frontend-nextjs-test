@@ -19,7 +19,7 @@ import { GetServerSideProps } from 'next/types';
 
 import styles from '@/styles/ciclo-de-vida.module.css';
 import { Counter } from '@/components/Counter';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 type CicloDeVidaProps = {
 	initialCount: number;
@@ -27,24 +27,23 @@ type CicloDeVidaProps = {
 
 export default function CicloDeVida({ initialCount }: CicloDeVidaProps) {
 	const [showCounter, setShowCounter] = useState(false);
-	const [count, setCount] = useState(0);
+	const eventListenersRef = useRef(false);
 
 	function handleOcultCounterClick() {
 		setShowCounter((prevState) => !prevState);
 	}
 
 	useEffect(() => {
-		window.addEventListener('onCounterMount', (event: CustomEventInit) => {
-			console.log('onCounterMount');
-		});
+		if (!eventListenersRef.current) {
+			eventListenersRef.current = true;
 
-		window.addEventListener('onCounterUnmount', (event: CustomEventInit) => {
-			console.log('onCounterUnmount');
-		});
-
-		window.addEventListener('onCounterUpdate', (event: CustomEventInit) => {
-			console.log('onCounterUpdate');
-		});
+			window.addEventListener('onCounterUpdate', (event: CustomEventInit) => {
+				console.log('Componente atualizado!', event.detail.count);
+				if (event.detail.count === 10) {
+					setShowCounter(false);
+				}
+			});
+		}
 	}, []);
 
 	return (
