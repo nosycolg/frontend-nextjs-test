@@ -9,7 +9,7 @@
 
 import styles from '@/styles/context-api.module.css';
 import { ToastMessage } from '@/components/ToastMessage';
-import { useMessages } from '@/contexts/messages';
+import { useMessages } from '@/context/messages';
 import { faker } from '@faker-js/faker/locale/pt_BR';
 
 export default function ContextApi() {

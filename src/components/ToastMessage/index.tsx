@@ -1,5 +1,5 @@
 import { IToastMessage } from '@/types/toast-message';
-import { useMessages } from '@/contexts/messages';
+import { useMessages } from '@/context/messages';
 import styles from './style.module.css';
 
 type ToastMessageProps = {

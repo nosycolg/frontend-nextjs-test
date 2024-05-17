@@ -18,9 +18,9 @@ import { faker } from '@faker-js/faker/locale/pt_BR';
 
 export default ApiMethod('GET')(async (req: NextApiRequest, res: NextApiResponse) => {
 	const users: Array<IUser> = [
-		{ id: faker.string.uuid(), name: 'Junior', email: 'usuario1@example.com' },
-		{ id: faker.string.uuid(), name: 'Pleno', email: 'usuario2@example.com' },
-		{ id: faker.string.uuid(), name: 'Senior', email: 'usuario2@example.com' }
+		{ id: faker.string.uuid(), name: 'Junior', email: 'junior@junior.com' },
+		{ id: faker.string.uuid(), name: 'Pleno', email: 'pleno@pleno.com' },
+		{ id: faker.string.uuid(), name: 'Senior', email: 'senior@senior.com' }
 	];
 	return res.status(200).json(users);
 });

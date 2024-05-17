@@ -14,7 +14,7 @@ import { IUserCreate } from '@/types/user';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function Form() {
-	const { register, handleSubmit } = useForm<IUserCreate>();
+	const { register, handleSubmit, formState: { errors } } = useForm<IUserCreate>();
 	const onSubmit: SubmitHandler<IUserCreate> = (data) => {
 		createUser(data);
 	};
@@ -35,8 +35,25 @@ export default function Form() {
 		<div className={styles.container}>
 			<div className={styles.content}>
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<input {...register('name')} type="text" placeholder="Name" />
-					<input {...register('email')} type="email" placeholder="E-mail" />
+					<input
+						{...register('name', { required: 'Nome é obrigatório' })}
+						type="text"
+						placeholder="Nome"
+					/>
+					{errors.name && <p className={styles.error}>{errors.name.message}</p>}
+
+					<input
+						{...register('email', {
+							required: 'E-mail é obrigatório',
+							pattern: {
+								value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+								message: 'E-mail inválido'
+							}
+						})}
+						type="text"
+						placeholder="E-mail"
+					/>
+					{errors.email && <p className={styles.error}>{errors.email.message}</p>}
 
 					<button type="submit" data-type="confirm">
 						Enviar

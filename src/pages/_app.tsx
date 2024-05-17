@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import '@/styles/globals.css';
-import { MessagesProvider } from '@/contexts/messages';
+import { MessagesProvider } from '@/context/messages';
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (

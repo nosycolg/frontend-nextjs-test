@@ -14,6 +14,10 @@ import { IUser } from '@/types/user';
 export default function Lista() {
 	const [users, setUsers] = useState<IUser[]>([]);
 
+	useEffect(() => {
+		getUsersList();
+	}, []);
+
 	async function getUsersList() {
 		try {
 			const response = await fetch('/api/users');
@@ -26,10 +30,6 @@ export default function Lista() {
 			console.error(error);
 		}
 	}
-
-	useEffect(() => {
-		getUsersList();
-	}, []);
 
 	return (
 		<div className={styles.container}>
