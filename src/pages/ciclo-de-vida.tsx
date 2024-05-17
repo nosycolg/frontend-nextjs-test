@@ -20,6 +20,8 @@ import { GetServerSideProps } from 'next/types';
 import styles from '@/styles/ciclo-de-vida.module.css';
 import { Counter } from '@/components/Counter';
 import { useEffect, useState, useRef } from 'react';
+import Head from 'next/head';
+import toast from 'react-hot-toast';
 
 type CicloDeVidaProps = {
 	initialCount: number;
@@ -41,29 +43,39 @@ export default function CicloDeVida({ initialCount }: CicloDeVidaProps) {
 				console.log('Componente atualizado!', event.detail.count);
 				if (event.detail.count === 10) {
 					setShowCounter(false);
+					toast.error('Contador sobrecarregado!', {
+						style: {textAlign: 'center'}
+					})
 				}
 			});
 		}
 	}, []);
 
 	return (
-		<div className={styles.container}>
-			<div>
-				<button type="button" onClick={handleOcultCounterClick}>
-					{showCounter ? 'Ocultar contador' : 'Mostrar contador'}
-				</button>
+		<>
+			<Head>
+				<title>Página do ciclo de vida</title>
+				<meta name="description" content="Esta é a página do ciclo de vida" />
+			</Head>
 
-				{showCounter && (
-					<>
-						<h1>Exemplo de Ciclo de vida</h1>
+			<div className={styles.container}>
+				<div>
+					<button type="button" onClick={handleOcultCounterClick}>
+						{showCounter ? 'Ocultar contador' : 'Mostrar contador'}
+					</button>
 
-						<div data-content>
-							<Counter initialCount={initialCount} />
-						</div>
-					</>
-				)}
+					{showCounter && (
+						<>
+							<h1>Exemplo de Ciclo de vida</h1>
+
+							<div data-content>
+								<Counter initialCount={initialCount} />
+							</div>
+						</>
+					)}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 

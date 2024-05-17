@@ -14,13 +14,14 @@ import Head from 'next/head';
 import styles from '@/styles/modal.module.css';
 import { Modal } from '@/components/Modal';
 import { ConfirmationMessage } from '@/components/ConfirmationMessage';
+import toast from 'react-hot-toast';
 
 export default function Home() {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 
 	function handleModalConfirm() {
 		setModalIsOpen(false);
-		alert('confirmado');
+		toast.success('Modal confirmado com sucesso!')
 	}
 
 	function handleModalClose() {
@@ -30,7 +31,7 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Página de Confirmação</title>
+				<title>Página de confirmação</title>
 				<meta name="description" content="Esta é a página de confirmação" />
 			</Head>
 

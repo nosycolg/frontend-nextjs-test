@@ -11,6 +11,7 @@ import styles from '@/styles/context-api.module.css';
 import { ToastMessage } from '@/components/ToastMessage';
 import { useMessages } from '@/context/messages';
 import { faker } from '@faker-js/faker/locale/pt_BR';
+import Head from 'next/head';
 
 export default function ContextApi() {
 	const { messages, addMessage } = useMessages();
@@ -33,6 +34,11 @@ export default function ContextApi() {
 
 	return (
 		<>
+			<Head>
+				<title>Página do context API</title>
+				<meta name="description" content="Esta é a página do context API" />
+			</Head>
+
 			<div className={styles.container}>
 				<button type="button" onClick={handleSuccessButtonClick}>
 					Disparar mensagem de sucesso

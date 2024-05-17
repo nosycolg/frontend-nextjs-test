@@ -36,6 +36,8 @@ export const Modal: React.FC<ModalProps> = ({ children, title, isOpen, ...props 
 
 	function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
 		if (e.key === 'Escape') props.onClose?.('esc', e.target);
+
+		if (e.key === 'Enter') props.onConfirm?.();
 	}
 
 	if (!isOpen) return null;

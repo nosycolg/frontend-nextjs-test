@@ -9,57 +9,68 @@
  * - Lide com os possíveis erros
  */
 
+import { useCreateUser } from '@/hooks/useUsers';
 import styles from '@/styles/formulario.module.css';
 import { IUserCreate } from '@/types/user';
+import Head from 'next/head';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 export default function Form() {
-	const { register, handleSubmit, formState: { errors } } = useForm<IUserCreate>();
+	const { register, handleSubmit, formState: { errors }, reset } = useForm<IUserCreate>();
+	const { mutate: createUser } = useCreateUser();
 	const onSubmit: SubmitHandler<IUserCreate> = (data) => {
-		createUser(data);
+		handleCreateUser(data);
 	};
 
-	async function createUser(data: IUserCreate) {
-		try {
-			await fetch('/api/users/create', {
-				method: 'POST',
-				headers: { "Content-Type": "application/json;charset=utf-8" },
-				body: JSON.stringify(data)
-			});
-		} catch (error) {
-			console.error(error);
-		}
+	function handleCreateUser(data: IUserCreate) {
+		createUser(data, {
+			onSuccess: () => {
+				toast.success('Usuário criado com sucesso!')
+				reset()
+			},
+			onError: () => {
+				toast.error('Erro ao criar usuário!')
+			}
+		});
 	}
 
 	return (
-		<div className={styles.container}>
-			<div className={styles.content}>
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<input
-						{...register('name', { required: 'Nome é obrigatório' })}
-						type="text"
-						placeholder="Nome"
-					/>
-					{errors.name && <p className={styles.error}>{errors.name.message}</p>}
+		<>
+			<Head>
+				<title>Página do formulário</title>
+				<meta name="description" content="Esta é a página do formulário" />
+			</Head>
 
-					<input
-						{...register('email', {
-							required: 'E-mail é obrigatório',
-							pattern: {
-								value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-								message: 'E-mail inválido'
-							}
-						})}
-						type="text"
-						placeholder="E-mail"
-					/>
-					{errors.email && <p className={styles.error}>{errors.email.message}</p>}
+			<div className={styles.container}>
+				<div className={styles.content}>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<input
+							{...register('name', { required: 'Nome é obrigatório' })}
+							type="text"
+							placeholder="Nome"
+						/>
+						{errors.name && <p className={styles.error}>{errors.name.message}</p>}
 
-					<button type="submit" data-type="confirm">
-						Enviar
-					</button>
-				</form>
+						<input
+							{...register('email', {
+								required: 'E-mail é obrigatório',
+								pattern: {
+									value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+									message: 'E-mail inválido'
+								}
+							})}
+							type="text"
+							placeholder="E-mail"
+						/>
+						{errors.email && <p className={styles.error}>{errors.email.message}</p>}
+
+						<button type="submit" data-type="confirm">
+							Enviar
+						</button>
+					</form>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
