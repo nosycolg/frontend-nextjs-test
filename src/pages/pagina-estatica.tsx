@@ -43,7 +43,7 @@ export default function Lista({ list }: ListaProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
 	try {
-		const response = await fetch('http://localhost:3000/api/cities/10');
+		const response = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/cities/10`);
 		const data: ICity[] = await response.json();
 
 		if (!response.ok) {
