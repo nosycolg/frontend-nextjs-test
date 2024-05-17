@@ -23,9 +23,10 @@ type ModalProps = {
 export const Modal: React.FC<ModalProps> = ({ children, title, isOpen, ...props }) => {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 	const buttonRef = useRef<HTMLButtonElement>(null);
+	const closeButtonRef = useRef<HTMLButtonElement>(null);
 
 	function handleCloseClick(e: React.MouseEvent) {
-		if (e.target == wrapperRef.current || e.target == buttonRef.current) {
+		if (e.target == wrapperRef.current || e.target == buttonRef.current || e.target == closeButtonRef.current) {
 			props.onClose?.('click', e.target);
 		}
 	}
@@ -48,7 +49,7 @@ export const Modal: React.FC<ModalProps> = ({ children, title, isOpen, ...props 
 				<header data-modal-header>
 					<h2>{title}</h2>
 
-					<button data-modal-close onClick={handleCloseClick}>
+					<button ref={closeButtonRef} data-modal-close onClick={handleCloseClick}>
 						X
 					</button>
 				</header>
