@@ -13,20 +13,14 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
 import { IUser } from '@/types/user.d';
+import { ApiMethod } from '@/decorators/method';
+import { faker } from '@faker-js/faker/locale/pt_BR';
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-	if (req.method === 'GET') {
-		try {
-			const users: Array<IUser> = [
-				{ id: 1, name: 'Junior', email: 'usuario1@example.com' },
-				{ id: 2, name: 'Pleno', email: 'usuario2@example.com' },
-				{ id: 3, name: 'Senior', email: 'usuario2@example.com' }
-			];
-			return res.status(200).json(users);
-		} catch {
-			return res.status(400);
-		}
-	} else {
-		return res.status(500);
-	}
-};
+export default ApiMethod('GET')(async (req: NextApiRequest, res: NextApiResponse) => {
+	const users: Array<IUser> = [
+		{ id: faker.string.uuid(), name: 'Junior', email: 'usuario1@example.com' },
+		{ id: faker.string.uuid(), name: 'Pleno', email: 'usuario2@example.com' },
+		{ id: faker.string.uuid(), name: 'Senior', email: 'usuario2@example.com' }
+	];
+	return res.status(200).json(users);
+});

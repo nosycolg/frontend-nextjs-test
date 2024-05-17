@@ -8,29 +8,27 @@
  */
 
 import styles from '@/styles/context-api.module.css';
-import { IToastMessage } from '@/types/toast-message';
 import { ToastMessage } from '@/components/ToastMessage';
+import { useMessages } from '@/contexts/messages';
+import { faker } from '@faker-js/faker/locale/pt_BR';
 
 export default function ContextApi() {
-	const messages: Array<IToastMessage> = [
-		{
-			id: '1',
-			message: 'Mensagem de sucesso',
-			type: 'success',
-		},
-		{
-			id: '2',
-			message: 'Mensagem de erro',
-			type: 'error',
-		},
-	];
+	const { messages, addMessage } = useMessages();
 
 	function handleSuccessButtonClick() {
-		alert('Method: handleSuccessButtonClick not implemented');
+		addMessage({
+			id: faker.string.uuid(),
+			message: 'Mensagem de sucesso',
+			type: 'success',
+		});
 	}
 
 	function handleErrorButtonClick() {
-		alert('Method: handleErrorButtonClick not implemented');
+		addMessage({
+			id: faker.string.uuid(),
+			message: 'Mensagem de erro',
+			type: 'error',
+		});
 	}
 
 	return (
